@@ -3,7 +3,8 @@
 > **Disciplina:** Desenvolvimento de Aplicações Web Low-Code  
 > **Instituição:** UniFECAF & Rocketseat  
 > **Plataforma:** OutSystems
-> **Link do Projeto:** https://personal-axdkuugi-dev.outsystems.app/TaskFlowAI/
+
+> **Link do Projeto:** https://personal-axdkuugi-dev.outsystems.app/TaskFlowAI
 
 ---
 
