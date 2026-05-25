@@ -30,6 +30,10 @@
 
 O sistema resolve um problema real de equipes de TI, suporte e operações — a dificuldade de priorizar dezenas de tarefas de forma objetiva, sem viés humano, com rastreabilidade completa de cada decisão.
 
+
+<img width="1173" height="901" alt="image" src="https://github.com/user-attachments/assets/c29a6419-e25e-4bd7-b19c-a6e75f2b62e7" />
+
+
 ---
 
 ## Diferenciais
