@@ -298,4 +298,4 @@ taskflow-ai/
 
 ---
 
-*Projeto acadêmico — Desenvolvimento de Aplicações Web Low-Code · UniFECAF / Rocketseat · 2025*
+*Projeto acadêmico — Desenvolvimento de Aplicações Web Low-Code · UniFECAF / Rocketseat · 2026*
