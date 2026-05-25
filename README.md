@@ -1,8 +1,9 @@
 # TaskFlow AI — Gestão Inteligente de Tarefas
 
 > **Disciplina:** Desenvolvimento de Aplicações Web Low-Code  
-> **Instituição:** UniFECAF · Rocketseat  
+> **Instituição:** UniFECAF & Rocketseat  
 > **Plataforma:** OutSystems
+> **Link do Projeto:** https://personal-axdkuugi-dev.outsystems.app/TaskFlowAI/
 
 ---
 
