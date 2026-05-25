@@ -1,338 +1,299 @@
-📋 TaskFlow AI - Documentação Completa do Projeto
-🎯 Resumo Executivo
-TaskFlow AI é uma aplicação completa de gestão de tarefas com inteligência artificial integrada, desenvolvida na plataforma OutSystems. O sistema combina funcionalidades tradicionais de gerenciamento de projetos com recursos avançados de IA para sugestão automática de prioridades, oferecendo uma experiência otimizada para equipes de trabalho.
-Principais Diferenciais:
-🤖 IA Integrada - Sugestão automática de prioridades baseada em análise de conteúdo
-📊 Dashboard Analítico - KPIs e gráficos em tempo real
-🔄 Auditoria Completa - Rastreamento detalhado de todas as mudanças
-🎨 Categorização Dinâmica - Sistema flexível de categorias com cores personalizadas
-📱 Interface Responsiva - Otimizada para desktop, tablet e mobile
-🇧🇷 Totalmente em Português - Interface localizada para o mercado brasileiro
-🏗️ Arquitetura do Sistema
-Modelo de Dados
-1. Entidades Principais
-🏷️ CategoryServer
-Propósito: Gestão dinâmica de categorias de tarefas
-Atributos:
-Id (LongInteger) - Identificador único
-Name (Text) - Nome da categoria (máx. 100 caracteres)
-ColorHex (Text) - Código hexadecimal da cor para exibição
-IsActive (Boolean) - Status ativo/inativo da categoria
+# TaskFlow AI — Gestão Inteligente de Tarefas
 
-Autorização: Apenas Admin pode gerenciar
-📋 Task (Entidade Central)
-Propósito: Representa uma tarefa com recursos de IA
-Atributos Principais:
-Id (LongInteger) - Identificador único
-Title (Text) - Título da tarefa
-Description (Text) - Descrição detalhada
-StatusId (FK → TaskStatus) - Status atual da tarefa
-PriorityId (FK → Priority) - Prioridade definida pelo usuário
-AIPriorityId (FK → Priority) - Prioridade sugerida pela IA
-AIAccepted (Boolean) - Se a sugestão da IA foi aceita
-CategoryId (FK → Category) - Categoria estática (legado)
-CategoryServerId (FK → CategoryServer) - Categoria dinâmica
-AssignedToUserId (FK → User) - Usuário responsável
-CreatedByUserId (FK → User) - Usuário criador
-DueDate (Date) - Data de vencimento
-CreatedOn (DateTime) - Data de criação
-UpdatedOn (DateTime) - Última atualização
-IsArchived (Boolean) - Status arquivado
-IsOverdue (Boolean) - Indicador de atraso
+> **Disciplina:** Desenvolvimento de Aplicações Web Low-Code  
+> **Instituição:** UniFECAF · Rocketseat  
+> **Plataforma:** OutSystems
 
-Autorização: Admin e Manager têm acesso completo
-📜 TaskHistory
-Propósito: Auditoria completa de mudanças nas tarefas
-Atributos:
-Id (LongInteger) - Identificador único
-TaskId (FK → Task) - Tarefa relacionada
-ChangedByUserId (FK → User) - Usuário que fez a alteração
-ChangedOn (DateTime) - Data/hora da mudança
-OldStatusId (FK → TaskStatus) - Status anterior
-NewStatusId (FK → TaskStatus) - Novo status
-Notes (Text) - Observações sobre a mudança
+---
 
-Autorização: Admin e Manager podem visualizar e editar
-2. Entidades Estáticas
-🏷️ Category (Legado)
-Valores: General, Urgent
-Uso: Mantida para compatibilidade
-⭐ Priority
-Valores: Low, Medium, High, Critical
-Uso: Níveis de prioridade para tarefas e sugestões de IA
-🔄 TaskStatus
-Valores: Pending, InProgress, Done, Archived
-Uso: Estados do workflow de tarefas
-Sistema de Autorização
-👑 Admin
-Acesso total ao sistema
-Gerenciamento de usuários, categorias, tarefas e histórico
-Configurações do sistema
-👨‍💼 Manager
-Gerenciamento completo de tarefas
-Visualização e edição de categorias
-Acesso ao histórico de auditoria
-Sem acesso ao gerenciamento de usuários
-🖥️ Interface do Usuário - Detalhamento das Telas
-📊 Dashboard (Tela Principal)
-Arquivo: Dashboard
-Propósito: Visão geral executiva do sistema
-Seções:
-KPIs Principais (Layout 3 colunas)
-Total Pendentes: Contador de tarefas com status "Pending"
-Em Andamento: Contador de tarefas com status "InProgress"
-Concluídas: Contador de tarefas com status "Done"
+## Sumário
 
-Gráfico de Barras - Tarefas por Status
-Visualização da distribuição de tarefas por status
-Atualização em tempo real
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Diferenciais](#diferenciais)
+- [Arquitetura Canvas](#arquitetura-canvas)
+- [Modelo de Dados](#modelo-de-dados)
+- [Telas da Aplicação](#telas-da-aplicação)
+- [Inteligência Artificial](#inteligência-artificial)
+- [Automações e Timers](#automações-e-timers)
+- [Sistema de Autorização](#sistema-de-autorização)
+- [Acessibilidade e Sustentabilidade](#acessibilidade-e-sustentabilidade)
+- [Como Testar](#como-testar)
+- [Tecnologias](#tecnologias)
 
-Gráfico de Pizza - Tarefas por Prioridade
-Distribuição visual das prioridades das tarefas
-Cores diferenciadas por nível de prioridade
+---
 
-Lista "Top 5 Tarefas Mais Urgentes"
-Tabela com as 5 tarefas com prazo mais próximo
-Campos: Título, Data de Vencimento
-Ordenação automática por data crescente
-Sem paginação, filtros ou navegação (foco na urgência)
+## Sobre o Projeto
 
-Funcionalidades:
-Atualização automática dos dados
-Interface responsiva
-Navegação rápida para outras seções
-📋 Lista de Tarefas
-Arquivo: Tasks
-Propósito: Gestão principal das tarefas do sistema
-Layout: Tabela com colunas otimizadas
-Colunas Exibidas:
-Título - Nome da tarefa (clicável para detalhes)
-Status - Badge colorido com status atual
-Prioridade - Indicador visual de prioridade
-Categoria - Categoria dinâmica (CategoryServerId)
-Responsável - Nome do usuário atribuído
-Data de Vencimento - Prazo da tarefa
-Funcionalidades:
-✅ Filtros por status, prioridade e categoria
-✅ Busca por título
-✅ Ordenação por qualquer coluna
-✅ Paginação automática
-✅ Navegação para visualização e edição
-✅ Botão "Nova Tarefa"
-Ações Disponíveis:
-Visualizar - Abre tela de detalhes
-Editar - Abre formulário de edição
-Criar Nova - Formulário de nova tarefa
-👁️ Visualização de Tarefa
-Arquivo: TaskDetailView
-Propósito: Exibição completa dos detalhes de uma tarefa
-Layout Principal: Seções organizadas em 3 colunas
-Seção 1 - Detalhes da Tarefa:
-Título
-Descrição
-Categoria (CategoryServerId)
-Prioridade atual
-Status atual
-Seção 2 - Timeline e Status:
-Data de vencimento
-Data de criação
-Última atualização
-Status arquivado
-Indicador de atraso
-Seção 3 - Atribuição e Usuários:
-Responsável pela tarefa
-Criador da tarefa
-Seção 4 - Atributos de IA:
-Prioridade sugerida pela IA
-Status de aceitação da sugestão
-Aba de Histórico:
-Lista completa de mudanças
-Data/hora de cada alteração
-Observações das mudanças
-Filtro automático por TaskId
-Funcionalidades:
-Layout responsivo em 3 colunas
-Navegação por abas
-Botões de ação (Editar, Voltar)
-Histórico completo integrado
-✏️ Edição de Tarefa
-Arquivo: TaskDetailScreen
-Propósito: Formulário completo para criar/editar tarefas
-Layout: Formulário organizado em seções
-Seção 1 - Detalhes da Tarefa:
-Campo Título (obrigatório)
-Campo Descrição (texto longo)
-Seletor de Categoria (CategoryServerId)
-Campo duplicado de categoria (para compatibilidade)
-Seção 2 - Atribuição:
-Seletor de Responsável (AssignedToUserId)
-Campo Criador (CreatedByUserId)
-Seção 3 - Datas:
-Data de Criação (automática)
-Data de Vencimento (obrigatória)
-Seção 4 - Prioridade:
-Seletor de Prioridade Manual
-Prioridade Sugerida pela IA (exibição)
-Seção 5 - Status:
-Seletor de Status da Tarefa
-Checkbox "IA Aceita" (AIAccepted)
-Funcionalidades:
-Validação de campos obrigatórios
-Salvamento automático de timestamps
-Integração com sistema de IA
-Botões Salvar/Cancelar
-🏷️ Gestão de Categorias
-Arquivo: CategoryServers
-Propósito: Administração das categorias dinâmicas
-Layout: Lista tabular com edição inline
-Colunas:
-Nome - Nome da categoria (editável)
-Cor - Código hexadecimal (editável)
-Ativo - Status ativo/inativo (checkbox)
-Funcionalidades:
-✅ Edição inline na tabela
-✅ Filtro por status ativo
-✅ Busca por nome
-✅ Ordenação por colunas
-✅ Adição de novas categorias
-✅ Visualização de cores em tempo real
-Tela de Edição: CategoryServerEditScreen
-Formulário simples com 3 campos
-Validação de nome obrigatório
-Seletor de cores
-Toggle ativo/inativo
-📜 Histórico de Tarefas
-Arquivo: TaskHistoryDetailScreen
-Propósito: Visualização detalhada de mudanças
-Layout: 3 colunas organizadas
-Seção 1 - Detalhes da Mudança:
-Status anterior
-Novo status
-Data/hora da alteração
-Seção 2 - Usuário:
-Nome do usuário que fez a alteração
-Seção 3 - Observações:
-Notas adicionais sobre a mudança
-Tela de Edição: TaskHistoryEditScreen
-Formulário para auditoria manual
-Campos de status anterior/novo
-Campo de observações
-Metadados de alteração
-🔧 Funcionalidades Técnicas
-Sistema de Cores e Categorização
-Categorias com códigos hexadecimais personalizados
-Exibição visual consistente em toda aplicação
-Sistema flexível de ativação/desativação
-Auditoria e Rastreamento
-Log automático de todas as mudanças
-Timestamps precisos
-Identificação do usuário responsável
-Notas explicativas opcionais
-Preparação para IA
-Campos específicos para sugestões de IA
-Sistema de aceitação/rejeição de sugestões
-Estrutura preparada para integração com OpenAI
-Performance e Usabilidade
-Paginação automática em listas grandes
-Filtros otimizados
-Busca em tempo real
-Interface responsiva
-📱 Responsividade e Acessibilidade
-Breakpoints Suportados
-Desktop (1200px+): Layout completo com 3 colunas
-Tablet (768px-1199px): Layout adaptado com 2 colunas
-Mobile (até 767px): Layout em coluna única
-Recursos de Acessibilidade
-Navegação por teclado
-Contraste adequado de cores
-Textos alternativos em elementos visuais
-Estrutura semântica HTML
-🚀 Roadmap de Funcionalidades Futuras
-Fase 2 - Integração com IA
- Server Actions:
-CreateTask - Criação automatizada
-SuggestPriority_AI - Integração OpenAI
-UpdateTaskStatus - Workflow automatizado
+**TaskFlow AI** é uma aplicação web low-code desenvolvida em **OutSystems** para gestão inteligente de tarefas corporativas. Vai além de um simples gerenciador de tarefas: integra **Inteligência Artificial via OpenAI** para sugestão automática de prioridade com base no conteúdo de cada demanda.
 
- API OpenAI:
-Análise de conteúdo de tarefas
-Sugestão inteligente de prioridades
-Categorização automática
+O sistema resolve um problema real de equipes de TI, suporte e operações — a dificuldade de priorizar dezenas de tarefas de forma objetiva, sem viés humano, com rastreabilidade completa de cada decisão.
 
-Fase 3 - Automação e Notificações
- Timers Automáticos:
-NotifyDeadlineTimer - Alertas de prazo
-WeeklyReportTimer - Relatórios semanais
-CheckOverdueTimer - Verificação de atrasos
+---
 
- Sistema de E-mails:
-Templates personalizados
-Notificações automáticas
-Relatórios por e-mail
+## Diferenciais
 
-Fase 4 - Interface Avançada
- Kanban Board:
-Visualização drag-and-drop
-Organização por status
-Atualização em tempo real
+| # | Diferencial | Descrição |
+|---|---|---|
+| 🤖 | **IA Integrada** | Sugestão automática de prioridade (Baixa/Média/Alta/Crítica) via OpenAI GPT-4o-mini |
+| 📊 | **Dashboard Analítico** | KPIs em tempo real: pendentes, em andamento, concluídas, atrasadas |
+| 🗂️ | **Kanban Visual** | Visualização drag-and-drop por status (componente Forge) |
+| 📋 | **Auditoria Completa** | Histórico detalhado de toda alteração — quem, quando e o quê |
+| 🎨 | **Categorização Dinâmica** | Categorias com cores personalizadas em hexadecimal |
+| 🔔 | **Notificações Automáticas** | Alertas de prazo 24h antes do vencimento via e-mail |
+| 📅 | **Relatório Semanal** | Resumo de produtividade gerado automaticamente toda segunda-feira |
+| 🇧🇷 | **Interface em Português** | Totalmente localizada para o mercado brasileiro |
 
- Dashboard Avançado:
-Gráficos interativos
-Filtros temporais
-Exportação de relatórios
+---
 
-🎯 Casos de Uso Principais
-1. Gestor de Projetos
-Visualiza dashboard executivo
-Cria e atribui tarefas
-Monitora progresso da equipe
-Analisa relatórios de produtividade
-2. Membro da Equipe
-Visualiza tarefas atribuídas
-Atualiza status de progresso
-Consulta histórico de mudanças
-Recebe sugestões de IA para priorização
-3. Administrador do Sistema
-Gerencia categorias e configurações
-Monitora auditoria completa
-Configura integrações de IA
-Administra usuários e permissões
-📊 Métricas e KPIs Disponíveis
-Dashboard Principal
-Total de tarefas por status
-Distribuição por prioridade
-Tarefas mais urgentes
-Tendências temporais
-Relatórios Disponíveis
-Produtividade por usuário
-Tempo médio de conclusão
-Taxa de aceitação de sugestões de IA
-Distribuição por categorias
-🔒 Segurança e Compliance
-Controle de Acesso
-Sistema de roles hierárquico
-Permissões granulares por entidade
-Auditoria completa de ações
-Proteção de Dados
-Logs de auditoria imutáveis
-Controle de versioning
-Backup automático de dados críticos
-🛠️ Tecnologias Utilizadas
-Plataforma
-OutSystems - Plataforma de desenvolvimento low-code
-OutSystems UI - Framework de interface responsiva
-Bootstrap 5 - Sistema de grid e componentes (subjacente)
-Banco de Dados
-Modelo relacional otimizado
-Índices automáticos para performance
-Integridade referencial garantida
-Preparação para Integrações
-OpenAI API - Pronto para integração
-SMTP - Sistema de e-mails configurável
-REST APIs - Endpoints preparados
-📋 Conclusão
-O TaskFlow AI representa uma solução completa e moderna para gestão de tarefas, combinando a robustez de um sistema tradicional de project management com a inovação da inteligência artificial.
-A aplicação está 100% funcional em sua versão atual, oferecendo todas as funcionalidades essenciais para gestão eficiente de tarefas, com uma base sólida preparada para expansões futuras com IA e automação avançada.
-Status Atual: ✅ Pronto para Produção
-Próxima Fase: 🚀 Integração com IA e Automação
-Documentação gerada para TaskFlow AI v1.0 - Sistema de Gestão de Tarefas com IA
+## Arquitetura Canvas
+
+A aplicação segue a **Arquitetura Canvas do OutSystems** em 3 camadas com separação total de responsabilidades:
+
+```
+┌────────────────────────────────────────────────────────────┐
+│                    INTERFACE LAYER                          │
+│  TaskFlow_UI                                               │
+│  Dashboard · Tasks · TaskDetailView · TaskDetailScreen     │
+│  CategoryServers · TaskHistoryDetailScreen                 │
+└──────────────────────────┬─────────────────────────────────┘
+                            │  consome apenas Public Actions
+┌──────────────────────────▼─────────────────────────────────┐
+│                      CORE LAYER                             │
+│  TaskFlow_Core                                             │
+│  Entities · Static Entities · Server Actions · Timers      │
+│  Task · TaskHistory · CategoryServer                       │
+└──────────────────────────┬─────────────────────────────────┘
+                            │  consome Connectors & Services
+┌──────────────────────────▼─────────────────────────────────┐
+│                   FOUNDATION LAYER                          │
+│  TaskFlow_Foundation                                       │
+│  OpenAI REST Connector · Email Service · Site Properties   │
+└────────────────────────────────────────────────────────────┘
+```
+
+### Por que essa separação?
+
+- **Interface** nunca acessa entidades diretamente → sem acoplamento com banco
+- **Core** centraliza toda lógica de negócio → reutilizável e testável
+- **Foundation** isola integrações externas → fácil substituição sem impactar o resto
+
+---
+
+## Modelo de Dados
+
+### Entidades Principais
+
+#### `Task` — Entidade Central
+
+| Atributo | Tipo | Descrição |
+|---|---|---|
+| `Id` | LongInteger | Identificador único (PK, AutoNumber) |
+| `Title` | Text | Título da tarefa (obrigatório) |
+| `Description` | Text | Descrição detalhada |
+| `StatusId` | FK → TaskStatus | Status atual da tarefa |
+| `PriorityId` | FK → Priority | Prioridade definida pelo usuário |
+| `AIPriorityId` | FK → Priority | **Prioridade sugerida pela IA** |
+| `AIAccepted` | Boolean | Se o usuário aceitou a sugestão da IA |
+| `CategoryServerId` | FK → CategoryServer | Categoria dinâmica com cor |
+| `AssignedToUserId` | FK → User | Responsável pela tarefa |
+| `CreatedByUserId` | FK → User | Usuário que criou a tarefa |
+| `DueDate` | Date | Data de vencimento (obrigatória) |
+| `IsOverdue` | Boolean | Calculado automaticamente pelo Timer diário |
+| `IsArchived` | Boolean | Soft delete (Default: False) |
+
+#### `TaskHistory` — Auditoria
+
+| Atributo | Tipo | Descrição |
+|---|---|---|
+| `TaskId` | FK → Task | Tarefa relacionada |
+| `ChangedByUserId` | FK → User | Quem fez a alteração |
+| `ChangedOn` | DateTime | Data/hora da mudança |
+| `OldStatusId` | FK → TaskStatus | Status anterior |
+| `NewStatusId` | FK → TaskStatus | Novo status |
+| `Notes` | Text | Observações sobre a mudança |
+
+#### `CategoryServer` — Categorias Dinâmicas
+
+| Atributo | Tipo | Descrição |
+|---|---|---|
+| `Name` | Text(100) | Nome da categoria |
+| `ColorHex` | Text | Código hexadecimal da cor |
+| `IsActive` | Boolean | Ativa ou inativa |
+
+### Entidades Estáticas
+
+```
+TaskStatus:  Pending | InProgress | Done | Archived
+Priority:    Low | Medium | High | Critical
+```
+
+### Relacionamentos
+
+```
+User ──< Task (AssignedToUserId)     1 usuário → muitas tarefas atribuídas
+User ──< Task (CreatedByUserId)      1 usuário → muitas tarefas criadas
+Task ──< TaskHistory                 1 tarefa  → muitos registros de histórico
+CategoryServer ──< Task              1 categoria → muitas tarefas
+```
+
+---
+
+## Telas da Aplicação
+
+### Dashboard
+Visão executiva com KPIs em 3 colunas (Pendentes, Em Andamento, Concluídas), gráfico de barras por status, gráfico de pizza por prioridade e lista das 5 tarefas mais urgentes ordenadas por prazo crescente.
+
+### Lista de Tarefas (`Tasks`)
+Tabela completa com filtros por status, prioridade e categoria. Busca por título, ordenação por qualquer coluna e paginação automática. Badge colorido de status e prioridade em cada linha.
+
+### Visualização de Tarefa (`TaskDetailView`)
+Layout em 3 colunas: detalhes da tarefa, timeline de datas e informações de atribuição. Seção dedicada aos atributos de IA (prioridade sugerida + status de aceitação). Aba de histórico com todas as mudanças registradas.
+
+### Formulário de Tarefa (`TaskDetailScreen`)
+Criação e edição em formulário organizado em seções: Detalhes, Atribuição, Datas, Prioridade e Status. Integra o fluxo de sugestão de IA e exibe a prioridade sugerida ao lado da prioridade manual.
+
+### Gestão de Categorias (`CategoryServers`)
+Edição inline com visualização de cor em tempo real. Filtro por status ativo, busca por nome e adição de novas categorias com código hexadecimal personalizado.
+
+### Histórico (`TaskHistoryDetailScreen`)
+Visualização detalhada de cada mudança com status anterior, novo status, data/hora e observações.
+
+---
+
+## Inteligência Artificial
+
+### Como Funciona
+
+A IA é acionada ao criar uma tarefa. A Server Action `SuggestPriority_AI` no Core chama o conector REST da Foundation:
+
+```
+[System] Você é um assistente de priorização de tarefas.
+         Responda APENAS com: Baixa, Media, Alta ou Critica.
+
+[User]   Título: {Title}
+         Descrição: {Description}
+         Categoria: {CategoryName}
+         Prazo: {DueDate}  |  Hoje: {Today}
+```
+
+### Mapeamento da Resposta
+
+| Resposta da IA | Prioridade no Sistema |
+|---|---|
+| `"Critica"` / `"Crítica"` | 🔴 Critical |
+| `"Alta"` | 🟠 High |
+| `"Media"` / `"Média"` | 🟡 Medium |
+| `"Baixa"` / falha / timeout | 🟢 Low (fallback seguro) |
+
+O campo `AIPriorityId` armazena a sugestão. O campo `PriorityId` armazena a decisão final do usuário. `AIAccepted` registra se a sugestão foi aceita — dados úteis para refinamento futuro do modelo.
+
+---
+
+## Automações e Timers
+
+| Timer | Agendamento | Ação |
+|---|---|---|
+| `NotifyDeadlineTimer` | Diário às 08:00 | E-mail para tarefas com prazo em 24h |
+| `WeeklyReportTimer` | Segundas às 07:00 | Relatório de produtividade para gestores |
+| `CheckOverdueTimer` | Diário às 06:00 | Marca `IsOverdue=True` em tarefas atrasadas |
+| `ArchiveOldTimer` | Semanal | Arquiva tarefas concluídas há mais de 30 dias |
+
+---
+
+## Sistema de Autorização
+
+| Role | Permissões |
+|---|---|
+| **Admin** | Acesso total: usuários, categorias, tarefas, histórico, configurações |
+| **Manager** | Gerenciamento completo de tarefas, categorias e histórico |
+| **User** | Visualiza e atualiza suas próprias tarefas atribuídas |
+
+---
+
+## Acessibilidade e Sustentabilidade
+
+**Acessibilidade (WCAG AA):**
+- Labels explícitos em todos os inputs (atributo `For`, não só placeholder)
+- Contraste mínimo 4.5:1 entre texto e fundo
+- Navegação completa por teclado (Tab, Enter, Esc)
+- ARIA labels em ícones sem texto
+- Mensagens de erro descritivas
+
+**Sustentabilidade Digital:**
+- Paginação em todas as listagens (máximo 20 registros)
+- Cache de dados estáticos com refresh de 30 minutos
+- Soft delete em vez de exclusão física
+- Timers agendados fora do horário de pico
+- Aggregates otimizados — seleção apenas dos atributos necessários
+
+---
+
+## Como Testar
+
+### Acesso
+
+```
+URL:    [inserir URL após publicação no OutSystems]
+Admin:  admin@taskflow.com   /  TaskFlow@2025
+User:   teste@taskflow.com   /  TaskFlow@2025
+```
+
+### Fluxo Principal
+
+**1. Criar tarefa com sugestão de IA**
+1. Dashboard → "Nova Tarefa"
+2. Título: `"Servidor de produção fora do ar"`
+3. Descrição: `"Cliente reportou sistema inacessível desde 14h"`
+4. Salvar → a IA sugere automaticamente prioridade **Crítica**
+
+**2. Acompanhar no Kanban**
+1. Menu → Kanban
+2. Arrastar tarefa de "Pendente" para "Em Andamento"
+3. Verificar atualização de status em tempo real
+
+**3. Consultar Dashboard**
+1. Verificar KPIs atualizados
+2. Observar gráficos de distribuição por status e prioridade
+
+**4. Visualizar histórico**
+1. Abrir tarefa → aba Histórico
+2. Ver registros de mudanças com usuário e timestamp
+
+---
+
+## Tecnologias
+
+| Tecnologia | Uso |
+|---|---|
+| **OutSystems** | Plataforma low-code principal |
+| **Arquitetura Canvas** | Separação em Interface, Core e Foundation |
+| **OpenAI GPT-4o-mini** | Sugestão automática de prioridade |
+| **Kanban Board (Forge)** | Visualização drag-and-drop |
+| **OutSystems Charts** | Gráficos do dashboard |
+| **OutSystems Timers** | Automações de notificação e relatório |
+| **OutSystems Email** | Alertas de prazo e relatórios semanais |
+| **OutSystems UI** | Framework de interface responsiva |
+
+---
+
+## Estrutura do Repositório
+
+```
+taskflow-ai/
+├── README.md                    ← Este arquivo
+├── docs/
+│   ├── parte_teorica.pdf        ← Documento teórico completo
+│   └── apresentacao.pptx        ← Slides da apresentação
+├── screenshots/
+│   ├── dashboard.png
+│   ├── task_list.png
+│   ├── task_detail.png
+│   ├── kanban.png
+│   └── categories.png
+└── outsystems/
+    └── TaskFlowAI.oap           ← Arquivo exportado do OutSystems
+```
+
+---
+
+*Projeto acadêmico — Desenvolvimento de Aplicações Web Low-Code · UniFECAF / Rocketseat · 2025*
